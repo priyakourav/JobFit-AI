@@ -6,5 +6,4 @@ async function parseResumePDF(filePath) {
   const data = await pdfParse(dataBuffer);
   return data.text;
 }
-
 module.exports = { parseResumePDF };
