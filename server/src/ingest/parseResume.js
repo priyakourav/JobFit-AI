@@ -1,9 +1,15 @@
 const fs = require('fs');
-const pdfParse = require('pdf-parse');
+const { PDFParse } = require('pdf-parse');
 
 async function parseResumePDF(filePath) {
   const dataBuffer = fs.readFileSync(filePath);
-  const data = await pdfParse(dataBuffer);
-  return data.text;
+  const parser = new PDFParse({ data: dataBuffer });
+  try {
+    const result = await parser.getText();
+    return result.text;
+  } finally {
+    await parser.destroy();
+  }
 }
+
 module.exports = { parseResumePDF };
