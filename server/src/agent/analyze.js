@@ -48,14 +48,19 @@ async function retrieveEvidence(requirements, resumeText) {
 
 // Step 3: Gemini evidence dekh ke judge kare aur suggestions de
 async function judgeAndSuggest(evidence) {
-  const prompt = `You are a career coach. For each job requirement below you get the closest lines from the candidate's resume.
-Decide if the resume truly shows the skill. Only use the evidence given, do not invent experience.
+    const prompt = `You are a career coach. For each job requirement below you get the closest lines from the candidate's resume.
+Decide if the resume truly shows the skill. Only use the evidence given.
+Rules for "suggestion":
+- If status is strong or partial: say how to make the existing evidence stronger, using only facts from the evidence.
+- If status is missing: say what to learn or build. Never write a resume bullet that claims experience the candidate does not have.
+- You may give an example bullet only if prefixed with "Example (use only if true): ".
 Return JSON:
 {"matchScore":0-100,
  "summary":"2 sentences",
- "requirements":[{"skill":"","status":"strong|partial|missing","reason":"","suggestion":"concrete resume rewrite or what to learn"}]}
+ "requirements":[{"skill":"","status":"strong|partial|missing","reason":"","suggestion":""}]}
 Evidence:
 ${JSON.stringify(evidence, null, 2)}`;
+
   return generateJSON(prompt);
 }
 

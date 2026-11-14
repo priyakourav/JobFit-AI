@@ -1,7 +1,10 @@
 const express = require('express');
+const cors = require('cors');
 require('dotenv').config();
+const analyzeRoutes = require('./routes/analyze');
 
 const app = express();
+app.use(cors());
 app.use(express.json());
 
 const PORT = process.env.PORT || 5000;
@@ -9,6 +12,8 @@ const PORT = process.env.PORT || 5000;
 app.get('/', (req, res) => {
   res.send('JobFit AI server is running 🚀');
 });
+
+app.use('/api', analyzeRoutes);
 
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
